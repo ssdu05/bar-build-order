@@ -1,0 +1,501 @@
+@import 'tailwindcss';
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--foreground);
+  --color-popover: var(--card);
+  --color-popover-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: #121924;
+  --color-secondary: #253244;
+  --color-secondary-foreground: var(--foreground);
+  --color-muted: #1b2737;
+  --color-muted-foreground: #9aaac0;
+  --color-accent: #27374c;
+  --color-accent-foreground: var(--foreground);
+  --color-destructive: #f38e8e;
+  --color-border: #2b394c;
+  --color-input: #2b394c;
+  --color-ring: var(--primary);
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+}
+
+.replay-workspace {
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  padding: 0.75rem 1rem;
+}
+
+/* Overview is a normal document, not another scroll box inside the workspace.
+   The recorded build order retains its height-constrained map/list layout. */
+.app-shell:has(.replay-detail[data-view='overview']) {
+  height: auto;
+  min-height: 100dvh;
+  overflow: visible;
+}
+
+.library-layout:has(.replay-detail[data-view='overview']),
+.replay-main:has(.replay-detail[data-view='overview']),
+.replay-workspace:has(.replay-detail[data-view='overview']) {
+  height: auto;
+  overflow: visible;
+}
+
+.replay-detail,
+.replay-detail-tabs,
+.recorded-build-order {
+  display: flex;
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.replay-detail > header,
+.replay-detail-tabs > [role='tablist'],
+.recording-source {
+  flex-shrink: 0;
+}
+
+.recording-toolbar {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+}
+
+.recording-toolbar > p {
+  text-align: center;
+}
+
+@media (max-width: 639px) {
+  .recording-toolbar {
+    grid-template-columns: 1fr auto;
+  }
+  .recording-toolbar > button:first-child {
+    justify-self: start;
+  }
+  .recording-toolbar > p {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    text-align: left;
+  }
+}
+
+.replay-detail-tabs {
+  flex: 1;
+  height: auto;
+  gap: 0;
+}
+
+.replay-detail-tabs > [role='tablist'] {
+  align-self: start;
+}
+
+.replay-detail-tabs > [role='tabpanel'] {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  margin-top: 0.75rem;
+}
+
+.replay-detail-tabs > .replay-recorded-panel {
+  overflow: hidden;
+}
+
+.replay-detail[data-view='overview'] {
+  height: auto;
+}
+
+.replay-detail[data-view='overview'] .replay-detail-tabs,
+.replay-detail[data-view='overview'] .replay-detail-tabs > [role='tabpanel'] {
+  flex: none;
+}
+
+.replay-detail[data-view='overview'] .replay-detail-tabs > [role='tabpanel'] {
+  overflow: visible;
+  margin-top: 1.5rem;
+}
+
+.replay-overview {
+  display: grid;
+  width: 100%;
+  /* Limit the content, not the shared header and tab navigation. */
+  max-width: 90rem;
+  margin-inline: auto;
+  gap: clamp(1.5rem, 2.5vw, 2rem);
+}
+
+.replay-overview-summary {
+  display: grid;
+  align-items: start;
+  gap: clamp(1.5rem, 2.5vw, 2rem);
+}
+
+.replay-overview-map {
+  width: 100%;
+  max-width: 32rem;
+  justify-self: center;
+}
+
+.replay-overview-map .replay-map-stage {
+  height: clamp(15rem, 38dvh, 26rem);
+}
+
+.replay-overview-map .replay-map-players {
+  display: none;
+}
+
+.replay-overview-info {
+  display: grid;
+  min-width: 0;
+  gap: 1.25rem;
+}
+
+.replay-overview-teams {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  gap: 1rem;
+}
+
+.replay-overview-team {
+  min-width: 0;
+  padding: 1.25rem;
+}
+
+.replay-overview-player {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  padding-block: 0.25rem;
+}
+
+.replay-overview-player > button {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.replay-overview-notes {
+  padding: clamp(1rem, 2vw, 1.5rem);
+}
+
+.replay-overview-notes textarea {
+  min-height: 10rem;
+}
+
+@media (min-width: 72rem) {
+  .replay-overview-summary {
+    grid-template-columns: minmax(20rem, 0.8fr) minmax(0, 1.2fr);
+  }
+}
+
+.recorded-build-order {
+  gap: 0.5rem;
+}
+
+.recording-source {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 30%;
+  overflow: auto;
+  padding: 0.5rem 0.75rem;
+}
+
+.recording-capture {
+  flex: none;
+  max-height: 25%;
+  overflow: auto;
+}
+
+/* Size recording views against the full-window replay workspace. */
+.recording-workspace-container {
+  container-type: inline-size;
+  flex: 1;
+  min-height: 0;
+}
+
+/* Container containment would otherwise confine the fixed expanded map. */
+.recording-workspace-container:has(.replay-map--expanded) {
+  container-type: normal;
+}
+
+.recording-workspace-container:has(.replay-map--expanded) .recording-map-pane {
+  display: flex;
+}
+
+.recording-workspace {
+  display: flex;
+  height: 100%;
+  min-height: 0;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.recording-controls {
+  flex: none;
+  display: grid;
+  gap: 0.75rem;
+  max-height: 45%;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+}
+
+.recording-filters {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  padding: 0.75rem;
+}
+
+.recording-filters > *,
+.recording-filters .field > * {
+  min-width: 0;
+}
+
+.recording-view-tabs {
+  align-self: start;
+  flex-shrink: 0;
+}
+
+.recording-view-actions {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.recording-build-view,
+.recording-build-panels,
+.recording-statistics-view {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0;
+}
+
+.recording-statistics-view > .field {
+  flex: none;
+}
+
+.recording-statistics-scroll {
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+
+.recording-graphs-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+}
+
+.recording-graphs-grid > * {
+  min-width: 0;
+}
+
+@container (min-width: 60rem) {
+  .recording-graphs-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.recording-list-toggle {
+  display: none;
+}
+
+.recording-panes {
+  display: grid;
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  gap: 1rem;
+}
+
+.recording-pane {
+  min-width: 0;
+  min-height: 0;
+  margin-top: 0;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  background: var(--card);
+}
+
+.recording-pane[data-state='inactive'] {
+  display: none;
+}
+
+.recording-map-pane {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  overflow: hidden;
+  overscroll-behavior: contain;
+  padding: 0.75rem;
+}
+
+.recording-map-pane > :not(.replay-map) {
+  flex: none;
+}
+
+.recording-map-assets {
+  max-height: 30%;
+  overflow: auto;
+  font-size: 0.75rem;
+}
+
+.recording-map-assets > summary {
+  cursor: pointer;
+  color: var(--muted-foreground);
+}
+
+.replay-map {
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.replay-map > * {
+  flex-shrink: 0;
+}
+
+.replay-map-stage {
+  position: relative;
+  width: 100%;
+  min-height: 0;
+}
+
+.replay-map--fit {
+  flex: 1;
+}
+
+.replay-map--fit .replay-map-stage,
+.replay-map--expanded .replay-map-stage {
+  flex: 1;
+  min-height: 8rem;
+}
+
+.replay-map--expanded {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  padding: 1rem;
+  background: var(--background);
+}
+
+.replay-map--expanded .replay-map-help:not(.replay-map-warning),
+.replay-map--expanded .replay-map-players,
+.replay-map--fit .replay-map-help:not(.replay-map-warning),
+.replay-map--fit .replay-map-players {
+  display: none;
+}
+
+.recording-list-pane {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  overflow: hidden;
+}
+
+@container (min-width: 36rem) {
+  .recording-filters {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@container (min-width: 48rem) {
+  .recording-panes {
+    grid-template-columns: minmax(0, 1fr) minmax(22rem, 0.65fr);
+  }
+
+  .recording-view-tabs {
+    display: none;
+  }
+
+  .recording-list-time {
+    display: none;
+  }
+
+  .recording-map-pane[data-state='inactive'] {
+    display: flex;
+  }
+
+  .recording-list-pane[data-state='inactive'] {
+    display: flex;
+  }
+
+  .recording-list-toggle {
+    display: inline-flex;
+  }
+
+  [data-list-hidden='true'] .recording-panes {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  [data-list-hidden='true'] .recording-list-pane {
+    display: none;
+  }
+}
+
+:root {
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  color-scheme: dark;
+  /* Overview scrolls the page; the map workspace does not. Reserve the same
+     scrollbar space so switching tabs never shifts the shared controls. */
+  scrollbar-gutter: stable;
+  --background: #0b111b;
+  --foreground: #e4eaf3;
+  --card: #121c2a;
+  --primary: #e6bc6a;
+}
+
+@layer base {
+  [hidden] {
+    display: none !important;
+  }
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply m-0 bg-background text-foreground antialiased;
+  }
+  button,
+  [role='button'] {
+    @apply cursor-pointer;
+  }
+  button:disabled {
+    @apply cursor-not-allowed;
+  }
+  a {
+    @apply text-primary;
+  }
+}
+
+@layer components {
+  .panel {
+    @apply rounded-lg border bg-card p-4;
+  }
+  .field {
+    @apply grid gap-2 text-sm;
+  }
+  .muted {
+    @apply text-sm text-muted-foreground;
+  }
+}

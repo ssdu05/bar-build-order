@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+*.py[cod]
+assets/maps/
+assets/units/
+assets/refresh-failures.json
+*.sqlite3
+*.sqlite3-*
+.pytest_cache/
+node_modules/
+dist/
+coverage/
+*.tsbuildinfo
+.direnv/

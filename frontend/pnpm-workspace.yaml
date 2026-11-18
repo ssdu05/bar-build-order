@@ -1,0 +1,3 @@
+# Optional native file watcher used on macOS; other dependency builds stay blocked.
+allowBuilds:
+  fsevents: true

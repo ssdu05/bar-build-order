@@ -1,0 +1,10 @@
+session_name: bar-build-order
+windows:
+  - window_name: nvim
+    panes:
+      - shell_command:
+        - nvim
+  - window_name: opencode 
+    panes:
+      - shell_command:
+        - opencode2
